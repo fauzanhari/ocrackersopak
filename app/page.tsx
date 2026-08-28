@@ -15,9 +15,11 @@ export default function Home() {
     setTimeout(() => observeElements(), 100);
     
     // Auto-close mobile menu if open
-    const navLinks = document.querySelector('.nav-links') as HTMLElement | null;
-    if (navLinks && navLinks.style.display === 'flex' && window.innerWidth <= 968) {
-      navLinks.style.display = 'none';
+    if (window.innerWidth <= 968) {
+      const navLinks = document.querySelector('.nav-links') as HTMLElement | null;
+      if (navLinks && navLinks.style.display === 'flex') {
+        navLinks.style.display = 'none';
+      }
     }
   };
 
@@ -96,19 +98,23 @@ export default function Home() {
   const toggleMobileMenu = () => {
     const navLinks = document.querySelector('.nav-links') as HTMLElement | null;
     if (!navLinks) return;
-    if (navLinks.style.display === 'flex') {
+
+    const isOpen = navLinks.style.display === 'flex';
+
+    if (isOpen) {
       navLinks.style.display = 'none';
     } else {
       navLinks.style.display = 'flex';
       navLinks.style.flexDirection = 'column';
       navLinks.style.position = 'absolute';
-      navLinks.style.top = '70px';
+      navLinks.style.top = '60px';
       navLinks.style.left = '0';
       navLinks.style.right = '0';
       navLinks.style.background = 'rgba(26, 10, 5, 0.98)';
       navLinks.style.padding = '2rem';
       navLinks.style.gap = '1.5rem';
       navLinks.style.borderBottom = '1px solid rgba(232, 93, 4, 0.3)';
+      navLinks.style.zIndex = '999';
     }
   };
 
@@ -223,7 +229,7 @@ export default function Home() {
             <div className="feature-card scroll-reveal">
               <div className="feature-icon"><i className="fas fa-fire-alt"></i></div>
               <h3>Rasa Autentik Sate Tanjung</h3>
-              <p>Bumbu rahasia Sate Tanjung asli Lombok dengan perpaduan manis, pedas, dan gurih yang sempurna. Setiap gigitan membawa Anda ke Pulau Lombok.</p>
+              <p>Bumbu rahasia Sate Tanjung asli Lombok Utara dengan perpaduan manis, pedas, dan gurih yang sempurna. Setiap gigitan membawa Anda ke Pulau Lombok.</p>
             </div>
             <div className="feature-card scroll-reveal">
               <div className="feature-icon"><i className="fas fa-seedling"></i></div>
@@ -249,7 +255,7 @@ export default function Home() {
             <div className="product-info scroll-reveal">
               <h2>O-Crackers Opak-Ambon</h2>
               <span className="variant-tag">Varian: Sate Tanjung</span>
-              <p>O-Crackers adalah camilan inovatif berbahan dasar Opak-Opak Ambon tradisional yang dipadukan dengan bumbu Sate Tanjung khas Lombok. Renyah, gurih, dan kaya rasa. Diproduksi dengan standar kualitas tinggi untuk memastikan setiap kemasan memberikan pengalaman terbaik.</p>
+              <p>O-Crackers adalah camilan inovatif berbahan dasar Opak-Opak Ambon tradisional yang dipadukan dengan bumbu Sate Tanjung khas Lombok Utara. Renyah, gurih, dan kaya rasa. Diproduksi dengan standar kualitas tinggi untuk memastikan setiap kemasan memberikan pengalaman terbaik.</p>
               <div className="product-meta">
                 <div className="meta-item"><div className="value">75gr</div><div className="label">Berat Bersih</div></div>
                 <div className="meta-item"><div className="value">Halal</div><div className="label">Sertifikasi</div></div>
@@ -276,7 +282,7 @@ export default function Home() {
               </div>
               <div className="variant-info">
                 <h4>Sate Tanjung</h4>
-                <p>Rasa andalan dengan bumbu sate khas Lombok yang legendaris. Manis, pedas, dan gurih.</p>
+                <p>Terinspirasi dari cita rasa sate khas Tanjung, Lombok, varian ini memadukan rasa manis, pedas, dan gurih dalam satu gigitan. Cocok buat kamu yang suka camilan dengan rasa yang lebih berani dan penuh kejutan. Sekali mulai, siap-siap susah berhenti.</p>
               </div>
             </div>
             <div className="variant-card scroll-reveal">
@@ -285,7 +291,7 @@ export default function Home() {
               </div>
               <div className="variant-info">
                 <h4>Original</h4>
-                <p>Rasa kriuk dan renyah dimulut.</p>
+                <p>Kesederhanaan rasa yang menjadi awal dari segalanya. Gurih yang pas, tekstur yang ringan, dan kerenyahan yang konsisten menjadikan varian Original sebagai pilihan klasik yang selalu cocok untuk dinikmati kapan pun kamu ingin ngemil.</p>
               </div>
             </div>
           </div>
@@ -381,7 +387,7 @@ export default function Home() {
             <div className="flavor-profile scroll-reveal">
               <h3 style={{ marginBottom: '2rem', color: 'var(--cream)' }}>Profil Rasa</h3>
               {[
-                { label: 'Manis', pct: 85 },
+                { label: 'Manis', pct: 30 },
                 { label: 'Pedas', pct: 70 },
                 { label: 'Gurih', pct: 90 },
                 { label: 'Renyah', pct: 95 },

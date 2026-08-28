@@ -1041,16 +1041,95 @@ export function AdminDashboardClient({
           cursor: wait;
         }
 
+        /* ── Mobile Tab Bar (hidden by default, shown on mobile) ── */
+        .admin-mobile-tabs {
+          display: none;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          gap: 6px;
+          padding: 10px 16px;
+          background: rgba(0,0,0,0.2);
+          border-bottom: 1px solid rgba(255,248,240,0.06);
+          width: 100%;
+        }
+
+        .admin-mobile-tab {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 14px;
+          border-radius: 20px;
+          border: 1px solid rgba(255,248,240,0.1);
+          background: transparent;
+          color: rgba(255,248,240,0.55);
+          font-size: 0.78rem;
+          font-weight: 600;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: all 0.2s;
+          font-family: inherit;
+        }
+
+        .admin-mobile-tab:hover {
+          background: rgba(255,248,240,0.06);
+          color: var(--cream);
+        }
+
+        .admin-mobile-tab.active {
+          background: linear-gradient(135deg, rgba(232,93,4,0.25), rgba(214,40,40,0.15));
+          border-color: rgba(232,93,4,0.3);
+          color: var(--secondary);
+        }
+
+        .admin-mobile-tab i {
+          font-size: 0.8rem;
+        }
+
         /* ── Responsive ── */
         @media (max-width: 900px) {
           .admin-sidebar { display: none; }
+          .admin-mobile-tabs { display: flex; }
+          .admin-body { flex-direction: column; }
           .cms-grid { grid-template-columns: 1fr; }
           .admin-two-col { grid-template-columns: 1fr; }
+
+          .admin-topbar {
+            flex-wrap: wrap;
+            height: auto;
+            padding: 12px 16px;
+            gap: 8px;
+          }
+          .admin-topbar-left { gap: 10px; }
+          .admin-topbar-title { font-size: 1rem; }
+          .admin-back-btn { font-size: 0.75rem; padding: 5px 10px; }
+          .admin-badge-pill { font-size: 0.75rem; padding: 4px 10px; }
+
+          /* Mobile tab bar at the top of content */
+          .admin-content { padding: 20px 16px; }
         }
 
         @media (max-width: 640px) {
-          .admin-content { padding: 20px 16px; }
-          .stat-cards-grid { grid-template-columns: 1fr 1fr; }
+          .admin-content { padding: 16px 12px; }
+          .stat-cards-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+          .stat-card-new { padding: 18px 16px; }
+          .stat-card-new .stat-value { font-size: 1.6rem; }
+
+          .admin-card { padding: 18px; border-radius: 14px; }
+          .admin-info-panel { padding: 16px; flex-direction: column; gap: 10px; }
+
+          /* Make tables horizontally scrollable */
+          .admin-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+          .reward-item-card { flex-direction: column; gap: 10px; }
+        }
+
+        @media (max-width: 480px) {
+          .admin-topbar { padding: 10px 12px; }
+          .admin-topbar-title { font-size: 0.9rem; }
+          .admin-back-btn { font-size: 0.7rem; padding: 4px 8px; }
+
+          .stat-cards-grid { grid-template-columns: 1fr; }
+          .admin-content { padding: 14px 10px; }
         }
       `}</style>
 
@@ -1089,6 +1168,23 @@ export function AdminDashboardClient({
               </button>
             ))}
           </aside>
+
+          {/* ── Mobile Tab Bar (visible when sidebar is hidden) ── */}
+          <div className="admin-mobile-tabs">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                className={`admin-mobile-tab ${activeTab === tab.id ? "active" : ""}`}
+                onClick={tab.onClick}
+              >
+                <i className={`fas ${tab.icon}`} />
+                {tab.label}
+                {tab.badge && tab.badge > 0 ? (
+                  <span className="tab-notif-dot">{tab.badge}</span>
+                ) : null}
+              </button>
+            ))}
+          </div>
 
           {/* ── Main Content ── */}
           <main className="admin-content">

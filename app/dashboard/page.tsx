@@ -83,7 +83,7 @@ export default async function DashboardPage() {
       <header className="dashboard-header">
         <div>
           <Link className="back-link" href="/">
-            O-Crackers
+            Kembali ke dashboard
           </Link>
           <h1>Dashboard Token</h1>
           <p className="muted">{user.email}</p>
