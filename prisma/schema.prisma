@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model RedeemCode {
+  id         String      @id
+  code       String      @unique
+  tokenValue Int
+  isRedeemed Boolean     @default(false)
+  redeemedAt DateTime?
+  redeemedBy String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime
+  Redemption Redemption?
+}
+
+model Redemption {
+  id         String     @id
+  userId     String
+  codeId     String     @unique
+  tokenGain  Int
+  createdAt  DateTime   @default(now())
+  RedeemCode RedeemCode @relation(fields: [codeId], references: [id])
+  User       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model RewardExchange {
+  id           String               @id
+  userId       String
+  rewardItemId String
+  pointsSpent  Int
+  status       RewardExchangeStatus @default(PENDING)
+  userNote     String?
+  adminNote    String?
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime
+  RewardItem   RewardItem           @relation(fields: [rewardItemId], references: [id])
+  User         User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([userId])
+}
+
+model RewardItem {
+  id             String           @id
+  name           String
+  description    String?
+  pointCost      Int
+  stock          Int              @default(-1)
+  isActive       Boolean          @default(true)
+  imageUrl       String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime
+  RewardExchange RewardExchange[]
+}
+
+model SiteSetting {
+  key   String @id
+  value String
+}
+
+model TokenTransaction {
+  id        String               @id
+  userId    String
+  amount    Int
+  type      TokenTransactionType
+  note      String?
+  createdAt DateTime             @default(now())
+  User      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model User {
+  id               String             @id
+  name             String?
+  email            String             @unique
+  passwordHash     String
+  tokenBalance     Int                @default(0)
+  isAdmin          Boolean            @default(false)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime
+  Redemption       Redemption[]
+  RewardExchange   RewardExchange[]
+  TokenTransaction TokenTransaction[]
+}
+
+enum RewardExchangeStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum TokenTransactionType {
+  REDEEM_CODE
+  ADJUSTMENT
+  REWARD_EXCHANGE
+}
