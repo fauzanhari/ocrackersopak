@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { AdminDashboardClient } from "./AdminDashboardClient";
 
 export const dynamic = "force-dynamic";
-
+  
 export default async function AdminPage() {
   const user = await getCurrentUser();
 

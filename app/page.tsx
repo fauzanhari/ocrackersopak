@@ -13,6 +13,12 @@ export default function Home() {
     setActivePage(pageId);
     window.scrollTo(0, 0);
     setTimeout(() => observeElements(), 100);
+    
+    // Auto-close mobile menu if open
+    const navLinks = document.querySelector('.nav-links') as HTMLElement | null;
+    if (navLinks && navLinks.style.display === 'flex' && window.innerWidth <= 968) {
+      navLinks.style.display = 'none';
+    }
   };
 
   const observeElements = () => {
@@ -111,7 +117,7 @@ export default function Home() {
       {/* Navigation */}
       <nav>
         <a href="#" className="logo" onClick={(e) => { e.preventDefault(); showPage('home'); }}>
-          <Image src="/logo.png" alt="Logo" width={40} height={40} style={{ height: 40, width: 'auto' }} />
+          <Image src="/logo.png" alt="Logo" width={40} height={40} style={{ height: 40, width: 'auto', objectFit: 'contain' }} />
           O-Crackers
         </a>
         <ul className="nav-links">
@@ -197,7 +203,7 @@ export default function Home() {
               </div>
             </div>
             <div className="hero-image">
-              <Image src="/brndatnjng.png" alt="O-Crackers Sate Tanjung" width={600} height={500} style={{ maxWidth: '100%', height: 'auto' }} />
+              <Image src="/brndatnjng.png" alt="O-Crackers Sate Tanjung" width={600} height={500} priority style={{ width: '100%', height: 'auto', maxWidth: '520px', objectFit: 'contain' }} />
               <div className="floating-elements">
                 <div className="float-item" style={{ width: 80, height: 80, top: '10%', left: '10%' }}></div>
                 <div className="float-item" style={{ width: 40, height: 40, top: '60%', right: '10%', animationDelay: '1s' }}></div>
@@ -238,7 +244,7 @@ export default function Home() {
         <section className="products-section">
           <div className="product-showcase">
             <div className="product-image-main scroll-reveal">
-              <Image src="/prdktnjng.png" alt="O-Crackers Sate Tanjung" width={500} height={300} style={{ maxWidth: '100%', borderRadius: 20, filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))' }} />
+              <Image src="/prdktnjng.png" alt="O-Crackers Sate Tanjung" width={500} height={500} style={{ width: '100%', height: 'auto', maxWidth: '450px', objectFit: 'contain', borderRadius: 20, filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))' }} />
             </div>
             <div className="product-info scroll-reveal">
               <h2>O-Crackers Opak-Ambon</h2>
@@ -266,7 +272,7 @@ export default function Home() {
           <div className="variants-grid">
             <div className="variant-card active scroll-reveal">
               <div className="variant-img">
-                <Image src="/tjn.png" alt="Sate Tanjung" width={100} height={100} style={{ width: '30%', height: 'auto' }} />
+                <Image src="/tjn.png" alt="Sate Tanjung" width={220} height={260} style={{ maxHeight: '100%', maxWidth: '100%', width: 'auto', height: 'auto', objectFit: 'contain' }} />
               </div>
               <div className="variant-info">
                 <h4>Sate Tanjung</h4>
@@ -275,7 +281,7 @@ export default function Home() {
             </div>
             <div className="variant-card scroll-reveal">
               <div className="variant-img">
-                <Image src="/ori.png" alt="Original" width={120} height={120} style={{ width: '43%', height: 'auto' }} />
+                <Image src="/ori.png" alt="Original" width={220} height={260} style={{ maxHeight: '100%', maxWidth: '100%', width: 'auto', height: 'auto', objectFit: 'contain' }} />
               </div>
               <div className="variant-info">
                 <h4>Original</h4>
@@ -503,14 +509,13 @@ export default function Home() {
             <a onClick={() => showPage('loyalty')}>O-Points</a>
             <Link href="/login">Akun Saya</Link>
             <a href="#">FAQ</a>
-            <a href="#">Kontak Kami</a>
+            <a href="https://wa.me/6285739787067">Kontak Kami</a>
           </div>
           <div className="footer-links">
             <h4>Ikuti Kami</h4>
-            <a href="#"><i className="fab fa-instagram"></i> @ocrackers</a>
+            <a href="https://www.instagram.com/ocrakers/?utm_source=ig_web_button_share_sheet"><i className="fab fa-instagram"></i> @ocrackers</a>
             <a href="#"><i className="fab fa-tiktok"></i> @ocrackers</a>
             <a href="#"><i className="fab fa-facebook"></i> O-Crackers</a>
-            <a href="#"><i className="fab fa-youtube"></i> O-Crackers TV</a>
           </div>
         </div>
         <div className="footer-bottom">

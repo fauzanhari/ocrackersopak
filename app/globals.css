@@ -534,8 +534,8 @@ nav {
 
 .variants-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
   margin-top: 3rem;
 }
 
@@ -543,16 +543,30 @@ nav {
   background: rgba(255, 248, 240, 0.05);
   border: 1px solid rgba(232, 93, 4, 0.2);
   border-radius: 20px; overflow: hidden;
-  transition: all 0.4s; cursor: pointer;
+  transition: all 0.4s ease; cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 .variant-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
 .variant-card.active { border-color: var(--primary); background: rgba(232, 93, 4, 0.1); }
 
 .variant-img {
-  height: 180px;
-  background: linear-gradient(135deg, rgba(232,93,4,0.2), rgba(214,40,40,0.1));
+  height: 240px;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(232,93,4,0.15), rgba(214,40,40,0.08));
   display: flex; align-items: center; justify-content: center;
-  font-size: 3rem;
+  overflow: hidden;
+}
+.variant-img img {
+  max-height: 100% !important;
+  max-width: 100% !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  transition: transform 0.4s ease;
+}
+.variant-card:hover .variant-img img {
+  transform: scale(1.06);
 }
 .variant-info { padding: 1.5rem; }
 .variant-info h4 { margin-bottom: 0.5rem; color: var(--cream); }
@@ -814,31 +828,70 @@ input:focus {
    RESPONSIVE
    ============================================================ */
 @media (max-width: 968px) {
+  nav { padding: 0.8rem 4%; }
   .nav-links { display: none; }
   .mobile-menu-btn { display: block; }
+
+  .hero {
+    padding-top: 110px;
+    padding-bottom: 40px;
+    min-height: auto;
+  }
 
   .hero-content,
   .product-showcase,
   .story-content,
   .flavor-hero,
-  .dashboard-grid { grid-template-columns: 1fr; }
+  .dashboard-grid { grid-template-columns: 1fr; gap: 2.5rem; }
 
-  .hero-text h1 { font-size: 2.5rem; }
-  .hero { padding-top: 100px; }
+  .hero-text { text-align: center; }
+  .hero-text h1 { font-size: 2.8rem; }
+  .hero-text p { margin-left: auto; margin-right: auto; }
+  .hero-badges,
+  .hero-cta { justify-content: center; }
+
+  .product-showcase { text-align: center; }
+  .product-info { text-align: center; }
+  .product-meta,
+  .buy-buttons { justify-content: center; }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
+  .hero-text h1 { font-size: 2.2rem; }
+  .hero-text h3 { font-size: 0.95rem; }
+  .section-header h2,
+  .product-info h2,
+  .story-hero h2,
+  .flavor-text h2,
+  .loyalty-hero h2 { font-size: 1.8rem; }
+
+  .variants-grid { grid-template-columns: 1fr; }
+  .variant-img { height: 210px; padding: 1rem; }
+
+  .buy-buttons { flex-direction: column; width: 100%; }
+  .btn-shopee,
+  .btn-wa { width: 100%; justify-content: center; }
+
   .auth-card { padding: 24px; }
-  .dashboard-header,
-  .dashboard-grid { grid-template-columns: 1fr; }
-  .dashboard-header { align-items: flex-start; flex-direction: column; }
+  .dashboard-header { align-items: flex-start; flex-direction: column; gap: 12px; }
   .token-card strong { font-size: 48px; }
 
-  .nav-actions {
-    gap: 6px;
+  .nav-actions { gap: 6px; }
+  .nav-cta { padding: 0.45rem 0.8rem; font-size: 0.78rem; }
+  .user-greeting {
+    font-size: 0.75rem !important;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .nav-cta {
-    padding: 0.45rem 0.8rem;
-    font-size: 0.78rem;
-  }
+}
+
+@media (max-width: 480px) {
+  .hero-cta { flex-direction: column; width: 100%; }
+  .btn-primary,
+  .btn-secondary { width: 100%; justify-content: center; }
+  .hero-badges { flex-direction: column; align-items: center; }
+  .badge { width: 100%; justify-content: center; }
+  .product-meta { flex-wrap: wrap; gap: 1rem; justify-content: center; }
 }
