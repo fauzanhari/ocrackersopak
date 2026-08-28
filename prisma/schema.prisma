@@ -9,31 +9,31 @@ datasource db {
 }
 
 model RedeemCode {
-  id         String      @id
+  id         String      @id @default(uuid())
   code       String      @unique
   tokenValue Int
   isRedeemed Boolean     @default(false)
   redeemedAt DateTime?
   redeemedBy String?
   createdAt  DateTime    @default(now())
-  updatedAt  DateTime
-  Redemption Redemption?
+  updatedAt  DateTime    @default(now()) @updatedAt
+  redemption Redemption?
 }
 
 model Redemption {
-  id         String     @id
+  id         String     @id @default(uuid())
   userId     String
   codeId     String     @unique
   tokenGain  Int
   createdAt  DateTime   @default(now())
-  RedeemCode RedeemCode @relation(fields: [codeId], references: [id])
-  User       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  redeemCode RedeemCode @relation(fields: [codeId], references: [id])
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
 
 model RewardExchange {
-  id           String               @id
+  id           String               @id @default(uuid())
   userId       String
   rewardItemId String
   pointsSpent  Int
@@ -41,25 +41,25 @@ model RewardExchange {
   userNote     String?
   adminNote    String?
   createdAt    DateTime             @default(now())
-  updatedAt    DateTime
-  RewardItem   RewardItem           @relation(fields: [rewardItemId], references: [id])
-  User         User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  updatedAt    DateTime             @default(now()) @updatedAt
+  rewardItem   RewardItem           @relation(fields: [rewardItemId], references: [id])
+  user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([status])
   @@index([userId])
 }
 
 model RewardItem {
-  id             String           @id
-  name           String
-  description    String?
-  pointCost      Int
-  stock          Int              @default(-1)
-  isActive       Boolean          @default(true)
-  imageUrl       String?
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime
-  RewardExchange RewardExchange[]
+  id          String           @id @default(uuid())
+  name        String
+  description String?
+  pointCost   Int
+  stock       Int              @default(-1)
+  isActive    Boolean          @default(true)
+  imageUrl    String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @default(now()) @updatedAt
+  exchanges   RewardExchange[]
 }
 
 model SiteSetting {
@@ -68,29 +68,29 @@ model SiteSetting {
 }
 
 model TokenTransaction {
-  id        String               @id
+  id        String               @id @default(uuid())
   userId    String
   amount    Int
   type      TokenTransactionType
   note      String?
   createdAt DateTime             @default(now())
-  User      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, createdAt])
 }
 
 model User {
-  id               String             @id
-  name             String?
-  email            String             @unique
-  passwordHash     String
-  tokenBalance     Int                @default(0)
-  isAdmin          Boolean            @default(false)
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime
-  Redemption       Redemption[]
-  RewardExchange   RewardExchange[]
-  TokenTransaction TokenTransaction[]
+  id                String             @id @default(uuid())
+  name              String?
+  email             String             @unique
+  passwordHash      String
+  tokenBalance      Int                @default(0)
+  isAdmin           Boolean            @default(false)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @default(now()) @updatedAt
+  redemptions       Redemption[]
+  rewardExchanges   RewardExchange[]
+  tokenTransactions TokenTransaction[]
 }
 
 enum RewardExchangeStatus {
@@ -104,3 +104,4 @@ enum TokenTransactionType {
   ADJUSTMENT
   REWARD_EXCHANGE
 }
+
